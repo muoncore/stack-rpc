@@ -1,0 +1,8 @@
+# RPC Muon Stack
+
+This stack adds RPC support to Muon libraries
+
+It contains
+
+* The core protocol definition, written as a JSProtocol
+* Stack implementations for Jaavscript and Java muons
