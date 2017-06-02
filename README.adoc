@@ -1,11 +1,196 @@
 # RPC Muon Stack
 
-This stack adds RPC support to Muon libraries
+## What is a Muon Stack?
 
-It contains
+Muon is a set of libraries and services that let you build highly effective distributed systems that are message and event oriented.
 
-* The core protocol definition, written as a JSProtocol
-* Stack implementations for Jaavscript and Java muons
+Muon is structured as a set of libraries, known as `muon-core` that give a set of infrastructure for building messaging systems. These are available in multiple languages and handle the concerns of discovery, transport, encoding and managing failures. On top of these, the exact messaging semantics that you want to express are built. These are built as a "stack", a set of channels, agents and finally a user facing API that you will use in your application code.
 
-## Usage
+Muon has several such stacks, covering different scenarios and tasks, letting you communicate in various ways, highly distributed, cross platform and taking advantage of best of breed infrastructure and technologies.
 
+## What is RPC?
+
+RPC is the simplest communication style that you will use between remote systems. You ask a question, and get an answer. There are a large variety of different technologies that you can use to implement this. Ths most common in use today is HTTP.
+
+## JVM
+
+To use the stack in Java, first import Muon and the RPC stack
+
+*build.gradle*
+[source, groovy]
+----
+repositories {
+    jcenter()
+    maven { url 'https://simplicityitself.artifactoryonline.com/simplicityitself/muon' }
+    maven { url 'https://simplicityitself.artifactoryonline.com/simplicityitself/muon-snapshot' }
+}
+
+dependencies {
+    compile "io.muoncore:muon-core:$muonVersion"
+    compile "io.muoncore:muon-transport-amqp:$muonVersion"
+    compile "io.muoncore:muon-discovery-amqp:$muonVersion"
+    compile "io.muoncore.protocol:stack-rpc:0.0.1-SNAPSHOT"
+}
+----
+
+### Create a RPC Server
+
+This stack allows you to provide functions that can be remotely invoked.
+
+The server side looks like this
+
+[source, java]
+----
+
+Muon muon = .. create a muon ..
+
+RpcServer rpc = new RpcServer(muon);
+
+rpc.handleRequest(
+                path("/"),        <1>
+                wrapper -> {      <2>
+            wrapper.ok("Hi");     <3>
+        });
+
+----
+<1> A predicate describing what requests this handler will be invoked for. Available prebuilt predicates for paths, globs.
+<2> The object representing the request. Contains the request data, plus the api to send a response back.
+<3> Create a response and send it back to the client.
+
+The Response does not need to be created in the calling thread. In fact, its generally a good idea to do expensive work on a different thread if possible. For example, waiting for long running IO to complete.
+
+Run the service and you can now find the endpoint. You can see it in the Introspection report using the cli.
+
+```
+muon introspect <your-service>
+```
+
+You can call the endpoint using the CLI
+
+```
+
+> muon rpc <your-service> / --raw
+"Hi"
+
+```
+
+
+
+### Create a RPC Client
+
+Creating a client is just as simple.
+
+[source, java]
+----
+
+Subscriber<StreamData> subscriber = .. your subscriber ..
+Muon muon = .. create a muon ..;
+
+ReactiveStreamClient rs = new ReactiveStreamClient(muon);
+
+MuonFuture<Response> request = rs.request(          <1>
+        new URI("rpc://<your-service>/"))           <2>
+
+//non blocking. Invoked when the response arrives on an internal dispatch thread.
+request.then(response -> {
+  response.getStatus();
+  MyType payload = response.getPayload(MyType.class);   <3>
+  .... do stuff ...
+});
+
+// or use the blocking method
+Response response = request.get();
+
+response.getStatus();
+MyType payload = response.getPayload(MyType.class);
+
+//or, convert to an RS Publisher
+Subscriber<Response> sub = ... make a subscriber. It will receive the Response, and then a complete signal.
+request.toPublisher().subscribe(sub);
+
+----
+<1> Make a request, obtain a `MuonFuture` back to use. This is a convenient wrapper around a potentially long running action. It has both blocking and non blocking APIs that can be used to interact with the result.
+<2> The target endpoint to subscribe to
+<3> Decode the payload. This happens lazily, and can be decoded into different types on demand as required. This uses the Muon Codec subsystem.
+
+## Node.js
+
+### RPC Server
+
+To use this stack, import Muon and the stack using NPM.
+
+```
+npm install --save muon-core@next
+npm install --save muon-stack-rpc@next
+```
+
+Then, create a Muon instance and RPC server
+
+*index.js*
+[source, javascript]
+----
+var Muon = require("muon-core")
+
+var muonurl = process.env.MUON_URL || "amqp://muon:microservices@localhost"
+
+var muon = Muon.create("hello-world-node", muonurl);           <1>
+
+require("muon-stack-rpc").create(muon)                         <2>
+
+muon.handle('/', (request, respond) => {                       <3>
+    respond({
+        message: "Hi there!"
+    })
+})
+
+----
+<1> Create a new Muon instance, connecting to a local AMQP broker for discovery and transport
+<2> Add the RPC stack.
+<3> Use the added `handle` method to provide a new RPC function at the given path
+
+### RPC Client
+
+To use this stack, import Muon and the stack using NPM.
+
+```
+npm install --save muon-core@next
+npm install --save muon-stack-rpc@next
+```
+
+Then, create a Muon instance and RPC server
+
+*index.js*
+[source, javascript]
+----
+var Muon = require("muon-core")
+
+var muonurl = process.env.MUON_URL || "amqp://muon:microservices@localhost"
+
+var muon = Muon.create("hello-world-node", muonurl);
+
+require("muon-stack-rpc").create(muon)
+
+var promise = muon.request(      <1>
+    'rpc://<your-service>/',     <2>
+    {})                          <3>
+
+promise.then((response) => {     <4>
+   console.dir(response)
+}, (error) => {                  <5>
+   console.dir(error)
+})
+
+----
+<1> Call the remote function. Returns an RSVP.Promise.
+<2> The URL to invoke.
+<3> parameters to pass, either as a primitive, or an object. Mandatory.
+<4> Use the returned promise, this is the success handler.
+<5> The error handler of the promise. Invoked in the case where the transport fails (eg, network problems), the service does not exist or the remote service fails during function execution.
+
+## Getting involved/ adding to this stack.
+
+Additions and extensions to this stack are very welcome.
+
+Particularly of interest are :-
+
+* Added language support
