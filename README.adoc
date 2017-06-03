@@ -86,7 +86,7 @@ Creating a client is just as simple.
 Subscriber<StreamData> subscriber = .. your subscriber ..
 Muon muon = .. create a muon ..;
 
-RpcServer rs = new RpcServer(muon);
+RpcClient rs = new RpcClient(muon);
 
 MuonFuture<Response> request = rs.request(          <1>
         new URI("rpc://<your-service>/"))           <2>
