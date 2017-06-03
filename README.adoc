@@ -86,25 +86,25 @@ Creating a client is just as simple.
 Subscriber<StreamData> subscriber = .. your subscriber ..
 Muon muon = .. create a muon ..;
 
-ReactiveStreamClient rs = new ReactiveStreamClient(muon);
+RpcServer rs = new RpcServer(muon);
 
 MuonFuture<Response> request = rs.request(          <1>
         new URI("rpc://<your-service>/"))           <2>
 
-//non blocking. Invoked when the response arrives on an internal dispatch thread.
+//Option 1: non blocking. Invoked when the response arrives on an internal dispatch thread.
 request.then(response -> {
   response.getStatus();
   MyType payload = response.getPayload(MyType.class);   <3>
   .... do stuff ...
 });
 
-// or use the blocking method
+//Option 2: use the blocking API
 Response response = request.get();
 
 response.getStatus();
 MyType payload = response.getPayload(MyType.class);
 
-//or, convert to an RS Publisher
+//Option 3: convert to a Reactive Streams Publisher for integration with streaming systems and FRP libraries.
 Subscriber<Response> sub = ... make a subscriber. It will receive the Response, and then a complete signal.
 request.toPublisher().subscribe(sub);
 
