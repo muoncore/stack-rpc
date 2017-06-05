@@ -20,7 +20,7 @@ endif
 	git push origin
 
 test:
-	./gradlew check
+	./gradlew --refresh-dependencies check
 
 clean:
 	./gradlew clean
