@@ -1,3 +1,4 @@
+.PHONY: test
 
 publish-snapshot:
 	npm install
@@ -7,3 +8,6 @@ publish-snapshot:
 	git add package.json
 	git commit -m "Update snapshot version"
 	git push origin
+
+test:
+	npm run test

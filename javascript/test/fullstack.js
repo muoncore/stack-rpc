@@ -1,4 +1,7 @@
 var muoncore = require('muon-core');
+
+require("muon-amqp").attach(muoncore)
+
 var assert = require('assert');
 var expect = require('expect.js');
 
