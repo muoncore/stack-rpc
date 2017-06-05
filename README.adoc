@@ -86,12 +86,10 @@ You can call the endpoint using the CLI
 
 ### Create a RPC Client
 
-Creating a client is just as simple.
+Creating a client is conceptually just as simple, with the addition that you have 3 models you can use to obtain the result
 
 [source, java]
 ----
-
-Subscriber<StreamData> subscriber = .. your subscriber ..
 Muon muon = .. create a muon ..;
 
 RpcClient rs = new RpcClient(muon);
@@ -99,14 +97,14 @@ RpcClient rs = new RpcClient(muon);
 MuonFuture<Response> request = rs.request(          <1>
         new URI("rpc://<your-service>/"))           <2>
 
-//Option 1: non blocking. Invoked when the response arrives on an internal dispatch thread.
+//Option 1: non blocking. Invoked when the response arrives on an internal dispatch thread
 request.then(response -> {
   response.getStatus();
   MyType payload = response.getPayload(MyType.class);   <3>
   .... do stuff ...
 });
 
-//Option 2: use the blocking API
+//Option 2: use the blocking API, standard Java Future apis.
 Response response = request.get();
 
 response.getStatus();
