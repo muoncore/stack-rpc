@@ -51,7 +51,7 @@ class RequestResponseServerProtocolStackSpec extends Specification {
     when:
     def channel = stack.createChannel()
     channel.send(inbound("123", "FAKESERVICE", "requestresponse"))
-    Thread.sleep(50)
+    Thread.sleep(100)
 
     then:
     1 * handler.handle(_)
