@@ -1,7 +1,7 @@
 "use strict";
 
 var nodeUrl = require("url");
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 var RSVP = require('rsvp');
 require('sexylog');
 var messages = require('muon-core').Messages;
