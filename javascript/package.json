@@ -1,6 +1,6 @@
 {
   "name": "muon-stack-rpc",
-  "version": "0.0.2-22",
+  "version": "0.0.2-23",
   "description": "",
   "main": "./distribution/protocol.js",
   "scripts": {
