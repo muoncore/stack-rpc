@@ -1,6 +1,7 @@
 apply plugin:"groovy"
 
 repositories {
+    mavenLocal()
     maven {
         url "https://simplicityitself.artifactoryonline.com/simplicityitself/muon"
     }
@@ -10,6 +11,6 @@ repositories {
 }
 
 dependencies {
-    compile "io.muoncore:muon-core:7.3.0-SNAPSHOT"
+    compile "io.muoncore:muon-core:7.3.3-SNAPSHOT"
 }
 

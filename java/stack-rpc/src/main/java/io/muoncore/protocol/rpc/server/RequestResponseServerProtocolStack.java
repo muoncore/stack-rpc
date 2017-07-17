@@ -66,7 +66,6 @@ public class RequestResponseServerProtocolStack implements
 
           @Override
           public void answer(ServerResponse response) {
-            log.info("Response has been generated");
             callbackOnResponse.call(null, response);
           }
         });
