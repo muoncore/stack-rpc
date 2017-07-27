@@ -19,7 +19,7 @@ module.exports = function(api) {
         api.shutdown()
       }, 10000)
 
-      var encodedBody = api.encodeFor(request, request.targetService)
+      var encodedBody = api.encodeFor(request.payload, request.targetService)
 
       api.sendTransport({
         step: "request.made",
@@ -27,6 +27,7 @@ module.exports = function(api) {
         payload: {
           body: encodedBody.payload,
           content_type: encodedBody.contentType,
+          auth: request.auth,
           url: request.url
         }
       })
