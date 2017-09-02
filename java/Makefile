@@ -6,7 +6,7 @@ publish-snapshot: clean
 	#echo repoKey=muon-snapshot>>gradle.properties
 	./gradlew artifactoryPublish
 
-publish: clean
+publish:
 ifndef VERSION
 	$(error VERSION is undefined for Stack Release)
 endif
