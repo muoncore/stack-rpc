@@ -1,5 +1,8 @@
 # Change Log
 
+## [v0.0.2](https://github.com/muoncore/stack-rpc/tree/v0.0.2) (2017-09-02)
+[Full Changelog](https://github.com/muoncore/stack-rpc/compare/v0.0.1...v0.0.2)
+
 ## [v0.0.1](https://github.com/muoncore/stack-rpc/tree/v0.0.1) (2017-06-25)
 
 
