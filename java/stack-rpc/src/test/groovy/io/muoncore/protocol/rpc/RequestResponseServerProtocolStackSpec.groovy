@@ -6,7 +6,6 @@ import io.muoncore.ServiceDescriptor
 import io.muoncore.codec.json.GsonCodec
 import io.muoncore.codec.json.JsonOnlyCodecs
 import io.muoncore.config.AutoConfiguration
-import io.muoncore.config.MuonConfigBuilder
 import io.muoncore.message.MuonMessageBuilder
 import io.muoncore.protocol.rpc.server.HandlerPredicates
 import io.muoncore.protocol.rpc.server.RequestResponseHandlers
@@ -15,7 +14,6 @@ import io.muoncore.protocol.rpc.server.RequestResponseServerProtocolStack
 import io.muoncore.protocol.rpc.server.RequestWrapper
 import io.muoncore.protocol.rpc.server.ServerResponse
 import io.muoncore.transport.client.TransportClient
-import reactor.Environment
 import spock.lang.Specification
 import spock.util.concurrent.PollingConditions
 
@@ -38,7 +36,6 @@ class RequestResponseServerProtocolStackSpec extends Specification {
   }
 
   def "handler can be invoked via the external channel"() {
-    Environment.initializeIfEmpty()
     def handler = Mock(RequestResponseServerHandler) {
       getRequestType() >> Map
     }
@@ -58,7 +55,6 @@ class RequestResponseServerProtocolStackSpec extends Specification {
   }
 
   def "handler can reply down the channel"() {
-    Environment.initializeIfEmpty()
     def handler = Mock(RequestResponseServerHandler) {
       handle(_) >> { RequestWrapper wrapper ->
         wrapper.answer(new ServerResponse(200, "hello"))

@@ -1,6 +1,5 @@
 package io.muoncore.simulation
 
-import com.google.common.eventbus.EventBus
 import io.muoncore.MultiTransportMuon
 import io.muoncore.Muon
 import io.muoncore.channel.impl.StandardAsyncChannel
@@ -8,9 +7,9 @@ import io.muoncore.codec.json.JsonOnlyCodecs
 import io.muoncore.config.AutoConfiguration
 import io.muoncore.memory.discovery.InMemDiscovery
 import io.muoncore.memory.transport.InMemTransport
+import io.muoncore.memory.transport.bus.EventBus
 import io.muoncore.message.MuonMessage
 import io.muoncore.protocol.rpc.client.RpcClient
-import io.muoncore.protocol.rpc.server.HandlerPredicates
 import io.muoncore.protocol.rpc.server.RpcServer
 import io.muoncore.protocol.rpc.server.ServerResponse
 import org.reactivestreams.Subscriber

@@ -20,7 +20,6 @@ import io.muoncore.protocol.rpc.server.RequestWrapper
 import io.muoncore.protocol.rpc.server.ServerRequest
 import io.muoncore.protocol.rpc.server.ServerResponse
 import io.muoncore.transport.client.TransportClient
-import reactor.Environment
 import spock.lang.Specification
 import spock.lang.Timeout
 
@@ -51,7 +50,6 @@ class RequestResponseClientServerIntegrationSpec extends Specification {
     @Timeout(15)
     def "client gets a timeout if the server is slow"() {
         given:
-        Environment.initializeIfEmpty()
         def handlers = new DynamicRequestResponseHandlers(new RequestResponseServerHandler() {
             @Override
             HandlerPredicate getPredicate() {
@@ -148,7 +146,6 @@ class RequestResponseClientServerIntegrationSpec extends Specification {
     @Timeout(2)
     def "client and server can communicate"() {
         given:
-        Environment.initializeIfEmpty()
         def handlers = new DynamicRequestResponseHandlers(new RequestResponseServerHandler() {
             @Override
             HandlerPredicate getPredicate() {

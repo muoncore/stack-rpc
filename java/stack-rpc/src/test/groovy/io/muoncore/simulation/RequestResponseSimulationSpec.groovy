@@ -1,20 +1,18 @@
 package io.muoncore.simulation
 
-import com.google.common.eventbus.EventBus
 import io.muoncore.MultiTransportMuon
 import io.muoncore.Muon
 import io.muoncore.channel.impl.StandardAsyncChannel
 import io.muoncore.codec.json.JsonOnlyCodecs
 import io.muoncore.config.AutoConfiguration
+import io.muoncore.liblib.reactor.rx.broadcast.Broadcaster
 import io.muoncore.memory.discovery.InMemDiscovery
 import io.muoncore.memory.transport.InMemTransport
+import io.muoncore.memory.transport.bus.EventBus
 import io.muoncore.protocol.rpc.Response
 import io.muoncore.protocol.rpc.client.RpcClient
-import io.muoncore.protocol.rpc.server.HandlerPredicates
 import io.muoncore.protocol.rpc.server.RpcServer
 import io.muoncore.protocol.rpc.server.ServerResponse
-import reactor.Environment
-import reactor.rx.broadcast.Broadcaster
 import spock.lang.Specification
 import spock.lang.Timeout
 import spock.util.concurrent.PollingConditions
@@ -44,7 +42,6 @@ class RequestResponseSimulationSpec extends Specification {
 
     def "1 service can make requests to 5 others"() {
         def eventbus = new EventBus()
-        Environment.initializeIfEmpty()
 
         given: "some services"
 
@@ -93,7 +90,6 @@ class RequestResponseSimulationSpec extends Specification {
 
     def "promise interface works"() {
         def eventbus = new EventBus()
-        Environment.initializeIfEmpty()
         StandardAsyncChannel.echoOut=true
 
         given: "some services"
@@ -140,7 +136,6 @@ class RequestResponseSimulationSpec extends Specification {
     def "publisher interface works"() {
         def eventbus = new EventBus()
         StandardAsyncChannel.echoOut=true
-        Environment.initializeIfEmpty()
 
         given: "some services"
 
