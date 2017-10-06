@@ -93,7 +93,6 @@ exports.getApi = function (name, infrastructure) {
           },
           sendTransport: (msg) => {
             try {
-              logger.info("SENDING TO TRANSPORT", msg)
               transChannel.send(messages.muonMessage(msg.payload, serviceName, msg.targetService, protocolName, msg.step))
             } catch (e) {
               logger.warn(e)
