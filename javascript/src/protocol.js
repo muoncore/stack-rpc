@@ -44,7 +44,7 @@ exports.getApi = function (name, infrastructure) {
     var request = {
       url: remoteServiceUrl,
       auth: auth,
-      body: data
+      payload: data
     }
 
     var promise = new RSVP.Promise(function (resolve, reject) {
@@ -77,6 +77,7 @@ exports.getApi = function (name, infrastructure) {
             return payload
           },
           sendApi: (msg) => {
+            logger.info("SENDING TO API!")
             msg.body = messages.decode(msg.body, msg.content_type)
             delete msg.content_type
             exec(msg)
@@ -85,13 +86,19 @@ exports.getApi = function (name, infrastructure) {
             logger.debug("Shutdown has been called on RPC Client. No-op")
           },
           encodeFor: (msg, service) => {
+            console.dir(msg)
+            try {
             return {
               payload: messages.encode(msg),
               contentType: "application/json"
             }
+                } catch (e) {
+              console.dir(e)
+            }
           },
           sendTransport: (msg) => {
             try {
+              logger.info("SENDING TO TRANSPORT", msg)
               transChannel.send(messages.muonMessage(msg.payload, serviceName, msg.targetService, protocolName, msg.step))
             } catch (e) {
               logger.warn(e)
@@ -101,6 +108,8 @@ exports.getApi = function (name, infrastructure) {
             return messages.decode(msg.payload, msg.content_type);
           }
         })
+
+          console.dir(request)
 
         proto.fromApi(request)
       });

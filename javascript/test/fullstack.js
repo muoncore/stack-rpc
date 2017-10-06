@@ -49,7 +49,7 @@ describe("RPC Full Stack:", function () {
     rpc.create(muon2)
 
     setTimeout(() => {
-      var promise = muon2.request('rpc://example-service/tennis', "ping");
+      var promise = muon2.request('rpc://example-service/tennis', {});
 
       promise.then(function (response) {
         logger.warn("rpc://example-client server response received! response=" + JSON.stringify(response));
@@ -66,7 +66,7 @@ describe("RPC Full Stack:", function () {
         done(error);
 
       });
-    }, 50)
+    }, 5500)
 
   });
 

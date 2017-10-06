@@ -8,6 +8,8 @@ module.exports = function(api) {
     return api.type("Response", response)
   }
 
+  var completed = false
+
   return {
     fromApi: function (request) {
 
@@ -34,6 +36,7 @@ module.exports = function(api) {
     },
     fromTransport: function (msg) {
 
+      if (completed) return
       clearTimeout(timeoutcontrol)
 
       switch (msg.step) {
@@ -60,6 +63,7 @@ module.exports = function(api) {
           }))
       }
       api.shutdown()
+      completed = true
     }
   };
 }
