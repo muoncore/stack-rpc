@@ -86,14 +86,9 @@ exports.getApi = function (name, infrastructure) {
             logger.debug("Shutdown has been called on RPC Client. No-op")
           },
           encodeFor: (msg, service) => {
-            console.dir(msg)
-            try {
             return {
               payload: messages.encode(msg),
               contentType: "application/json"
-            }
-                } catch (e) {
-              console.dir(e)
             }
           },
           sendTransport: (msg) => {
@@ -108,8 +103,6 @@ exports.getApi = function (name, infrastructure) {
             return messages.decode(msg.payload, msg.content_type);
           }
         })
-
-          console.dir(request)
 
         proto.fromApi(request)
       });
@@ -186,7 +179,6 @@ function serverHandler() {
           if (name == "getHandler") {
             return  (request) => {
 
-              console.dir(request)
               var url = nodeUrl.parse(request.url, true);
               var path = url.pathname
 
