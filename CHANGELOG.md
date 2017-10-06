@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/muoncore/stack-rpc/tree/HEAD)
+
+[Full Changelog](https://github.com/muoncore/stack-rpc/compare/v0.0.2...HEAD)
+
+**Closed issues:**
+
+- Node RPC is incorrectly packing the request message [\#3](https://github.com/muoncore/stack-rpc/issues/3)
+
 ## [v0.0.2](https://github.com/muoncore/stack-rpc/tree/v0.0.2) (2017-09-02)
 [Full Changelog](https://github.com/muoncore/stack-rpc/compare/v0.0.1...v0.0.2)
 
