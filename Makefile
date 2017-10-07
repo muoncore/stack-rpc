@@ -7,9 +7,9 @@ test:
 	$(MAKE) -C java test
 	$(MAKE) -C javascript test
 
-publish: clean
+publish: 
 ifndef VERSION
 	$(error VERSION is undefined for Stack Release)
 endif
 	$(MAKE) -C java publish
-	$(MAKE) -C javascript publish
+	#$(MAKE) -C javascript publish
