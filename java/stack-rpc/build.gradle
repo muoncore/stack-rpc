@@ -10,6 +10,14 @@ dependencies {
     compile "io.muoncore:muon-core:7.4.1"
 }
 
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+task packageJavadoc(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
 
 publishing {
     publications {
@@ -36,19 +44,8 @@ publishing {
                 dev.appendNode("organization", "Muon Project")
                 dev.appendNode("organizationUrl", "http://muoncore.io")
 
-                asNode().packaging[0].value = 'jar'
-                asNode().dependencies.'*'.each{
-                    it.scope[0].value="compile"
-                }
             }
         }
     }
 }
 
-task sourceJar(type: Jar) {
-    from sourceSets.main.allJava
-}
-task packageJavadoc(type: Jar) {
-    from javadoc
-    classifier = 'javadoc'
-}
