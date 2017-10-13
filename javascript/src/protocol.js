@@ -44,7 +44,8 @@ exports.getApi = function (name, infrastructure) {
     var request = {
       url: remoteServiceUrl,
       auth: auth,
-      payload: data
+      payload: data,
+      targetService: parsedUrl.hostname
     }
 
     var promise = new RSVP.Promise(function (resolve, reject) {
@@ -77,7 +78,6 @@ exports.getApi = function (name, infrastructure) {
             return payload
           },
           sendApi: (msg) => {
-            logger.info("SENDING TO API!")
             msg.body = messages.decode(msg.body, msg.content_type)
             delete msg.content_type
             exec(msg)
@@ -93,7 +93,7 @@ exports.getApi = function (name, infrastructure) {
           },
           sendTransport: (msg) => {
             try {
-              transChannel.send(messages.muonMessage(msg.payload, serviceName, msg.targetService, protocolName, msg.step))
+              transChannel.send(messages.muonMessage(msg.payload, serviceName, msg.target, protocolName, msg.step))
             } catch (e) {
               logger.warn(e)
             }
