@@ -1,5 +1,14 @@
 # Change Log
 
+## [Unreleased](https://github.com/muoncore/stack-rpc/tree/HEAD)
+
+[Full Changelog](https://github.com/muoncore/stack-rpc/compare/v0.0.5...HEAD)
+
+**Closed issues:**
+
+- Doesn't set target\_service in muon messages [\#4](https://github.com/muoncore/stack-rpc/issues/4)
+- Update to generate full pom for maven central [\#2](https://github.com/muoncore/stack-rpc/issues/2)
+
 ## [v0.0.5](https://github.com/muoncore/stack-rpc/tree/v0.0.5) (2017-10-07)
 [Full Changelog](https://github.com/muoncore/stack-rpc/compare/v0.0.4...v0.0.5)
 
