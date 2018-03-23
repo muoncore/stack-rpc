@@ -1,5 +1,7 @@
 package io.muoncore.protocol.rpc.server;
 
+import io.muoncore.exception.MuonException;
+
 import java.util.function.Predicate;
 
 public class HandlerPredicates {
@@ -57,7 +59,15 @@ public class HandlerPredicates {
 
             @Override
             public Predicate<ServerRequest> matcher() {
-                return msg -> msg.getUrl().getPath().equals(path);
+
+                return msg -> {
+
+                    if (msg.getUrl() == null || msg.getUrl().getPath() == null) {
+                        throw new MuonException("Unable to match incoming URL " + msg.getUrl());
+                    }
+
+                    return msg.getUrl().getPath().equals(path);
+                };
             }
         };
     }
