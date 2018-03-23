@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/muoncore/stack-rpc/tree/HEAD)
-
-[Full Changelog](https://github.com/muoncore/stack-rpc/compare/v0.0.5...HEAD)
+## [v0.0.6](https://github.com/muoncore/stack-rpc/tree/v0.0.6) (2018-03-23)
+[Full Changelog](https://github.com/muoncore/stack-rpc/compare/v0.0.5...v0.0.6)
 
 **Closed issues:**
 
