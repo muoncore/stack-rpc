@@ -1,6 +1,6 @@
 {
   "name": "muon-stack-rpc",
-  "version": "0.0.2-34",
+  "version": "0.0.2-37",
   "description": "",
   "main": "./distribution/protocol.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "babel-runtime": "^6.18.0",
-    "muon-core": "^7.3.0-76"
+    "muon-core": "^7.3.0-79"
   },
   "devDependencies": {
     "amqp": "^0.2.6",
